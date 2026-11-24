@@ -8,6 +8,11 @@ await mkdir(dirname(destination), { recursive: true });
 await writeFile(destination, entry, { encoding: "utf8" });
 
 const written = await readFile(destination, { encoding: "utf8" });
-if (written !== entry || written.length > 200) {
+if (
+  written !== entry ||
+  [...written].length > 200 ||
+  written.endsWith("\n") ||
+  written.trim().length === 0
+) {
   throw new Error("The output entry did not pass verification.");
 }
